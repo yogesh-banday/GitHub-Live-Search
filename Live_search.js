@@ -13,7 +13,7 @@ async function fetchapi(user_name, requestId) {
         controller = new AbortController();
 
         let res = await fetch(`https://api.github.com/users/${user_name}`, { signal: controller.signal });
-        if (!res.ok) {
+        if (!res.ok) { 
             throw new Error("User not found");
         }
         let data = await res.json();
