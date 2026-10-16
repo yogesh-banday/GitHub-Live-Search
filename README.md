@@ -76,3 +76,5 @@ This project helped me practise:
 ---
 
 **Status:** Basic version — ongoing project.
+**Screen-Shot:** ![Profile Result](images/SS.png)
+
