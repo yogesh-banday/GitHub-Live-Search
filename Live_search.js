@@ -1,6 +1,22 @@
 
 let user_type = document.getElementById("username")
 let result = document.querySelector("#result")
+let avtar = document.querySelector(".dp")
+let name = document.querySelector("#name")
+let card = document.querySelector(".card")
+let username = document.querySelector("#username1")
+let bio = document.querySelector("#bio")
+let repo = document.querySelector(".repo")
+let follower = document.querySelector(".follower")
+let following = document.querySelector(".following")
+let repo_name = document.querySelector(".repo_name")
+let follower_name = document.querySelector(".follower_name")
+let following_name = document.querySelector(".following_name")
+let location1 = document.querySelector(".loacation")
+let github_link = document.querySelector(".github_link")
+let twitter = document.querySelector(".twitter")
+let email = document.querySelector(".email")
+
 // function fetchapi(user_name){
 //      console.log("Searching for user name:", user_name);
 // }
@@ -13,7 +29,7 @@ async function fetchapi(user_name, requestId) {
         controller = new AbortController();
 
         let res = await fetch(`https://api.github.com/users/${user_name}`, { signal: controller.signal });
-        if (!res.ok) { 
+        if (!res.ok) {
             throw new Error("User not found");
         }
         let data = await res.json();
@@ -23,7 +39,77 @@ async function fetchapi(user_name, requestId) {
             console.log("Ignoring outdated response for user:", user_name);
             return; // Ignore outdated response
         }
-        result.innerHTML = `<p>Name: ${data.name}</p><p>Bio: ${data.bio}</p>`;
+        const joinedDate = new Date(data.created_at).toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+            year: "numeric"
+        });
+
+        console.log(joinedDate);
+        name.innerHTML = `<h2>${data.name}</h2>`;
+        name.innerHTML += `<p>Joined ${joinedDate}</p>`;
+        username1.innerHTML = `<p>@${data.login}</p>`;
+        avtar.innerHTML = `<img src="${data.avatar_url}" alt="Avatar" width="140" height="140"  border-radius= '14px';>`;
+        // result.innerHTML = `<p>Name: ${data.name}</p><p>Bio: ${data.bio}</p>`;
+        if (data.bio) {
+            bio.innerHTML = `<p>${data.bio}</p>`;
+        } else {
+            bio.innerHTML = "<p>This profile has no bio</p>";
+        }
+        repo.innerHTML = `<p>${data.public_repos}</p>`;
+        follower.innerHTML = `<p>${data.followers}</p>`;
+        following.innerHTML = `<p>${data.following}</p>`;
+        repo_name.innerHTML = `<p>Repositories</p>`;
+        follower_name.innerHTML = `<p>Followers</p>`;
+        following_name.innerHTML = `<p>Following</p>`;
+        location1.innerHTML = `
+         <img src="images/icons8-location-24.png"  alt="" style="width: 20px; height: 20px;">
+         <p>${data.location || "Not Available"}</p>`;
+        github_link.innerHTML = `
+        <img src="images/icons8-link-24.png" alt="" style="width: 20px; height: 20px;">
+        <p><a href="${data.html_url}" target="_blank">GitHub Profile</a></p>`;
+        twitter.innerHTML = `
+        <img src="images/icons8-twitter-bird-50.png" alt="" style="width: 20px; height: 20px;">
+        <p>${data.twitter_username ? `<a href="https://twitter.com/${data.twitter_username}" target="_blank">@${data.twitter_username}</a>` : "Not Available"}</p>`;
+        email.innerHTML = `
+        <img src="images/icons8-email-24.png" alt="" style="width: 20px; height: 20px;">
+        <p>${data.email || "Not Available"}</p>`;
+
+
+        // add fllowers and following count to the respective divs css
+        const style = document.createElement("style");
+
+        style.textContent = `
+  .reach {
+    display: flex;
+    width: 100%;
+    position: relative;
+    left: 18px;
+    height: 50px;
+    background-color: var(--color-stats);
+    border-radius: 10px;
+   
+  }
+
+  .repo,
+  .follower,
+  .following {
+    width: 33.33%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .repo {
+    border-right: 1px solid var(--color-border);
+  }
+
+  .follower {
+    border-right: 1px solid var(--color-border);
+  }
+`;
+
+        document.head.appendChild(style);
 
     } catch (error) {
         if (error.name === 'AbortError') {
@@ -39,6 +125,7 @@ async function fetchapi(user_name, requestId) {
     }
 }
 
+
 function debounce(call_back, delay) {
     let timer;
 
@@ -49,7 +136,7 @@ function debounce(call_back, delay) {
         }
 
         timer = setTimeout(() => {
-            result.textContent = "Searching...";
+            name.innerHTML = "Searching...";
             call_back(user_name, requestId);
         }, delay);
     }
