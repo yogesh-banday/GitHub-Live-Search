@@ -1,17 +1,18 @@
-# GitHub Live Search
+\# YogiFinder — GitHub Profile Search
 
-A simple GitHub profile search application built with **HTML, CSS, and Vanilla JavaScript** using the GitHub REST API.
+YogiFinder is a simple web application that lets you search for GitHub users and view their profile information without leaving the page.
 
-Search for a GitHub username and view basic profile information without leaving the page.
+Built with HTML, CSS, Vanilla JavaScript, and the GitHub REST API.
 
 ## Features
 
-- **GitHub API Integration** — Fetches user profile data from the GitHub REST API.
-- **Debounced Search** — Waits until the user pauses typing before making an API request.
-- **Request Cancellation** — Uses `AbortController` to cancel outdated fetch requests when possible.
-- **Stale Response Protection** — Uses request IDs to prevent outdated responses from updating the UI.
-- **Error Handling** — Handles unsuccessful API responses and request errors.
-- **Empty Input Handling** — Clears the results and cancels pending search operations when the input is empty.
+- **GitHub API Integration** — Fetches public GitHub profile information.
+- **Debounced Search** — Waits for the user to pause typing before starting a search.
+- **Request Cancellation** — Uses `AbortController` to cancel outdated requests.
+- **Stale Response Protection** — Uses request IDs to prevent older responses from overwriting newer results.
+- **Profile Information** — Displays profile details such as the avatar, bio, repositories, followers, and following.
+- **Joined Date Formatting** — Formats the account creation date for readability.
+- **Input and Error Handling** — Handles empty input and unsuccessful requests.
 
 ## Tech Stack
 
@@ -22,59 +23,59 @@ Search for a GitHub username and view basic profile information without leaving 
 
 ## How It Works
 
-1. Enter a GitHub username in the search field.
-2. The application waits for a short pause in typing using debouncing.
-3. A request is sent to the GitHub REST API.
-4. The response is processed and the profile information is displayed.
-5. Outdated requests are ignored to help prevent incorrect results from appearing.
+1. Enter a GitHub username.
+2. YogiFinder waits briefly for you to stop typing.
+3. It requests the user's public profile from the GitHub REST API.
+4. The profile information is displayed on the page.
+5. Request cancellation and stale-response protection help prevent outdated results from appearing.
 
 ## Getting Started
 
 ### Run Locally
 
-1. Clone the repository:
+Clone the repository:
 
-   ```bash
-   git clone https://github.com/YOUR_USERNAME/github-live-search.git
-   ```
+```bash
+git clone https://github.com/yogesh-banday/GitHub-Live-Search.git
+```
 
-2. Open the project folder:
+Move into the project directory:
 
-   ```bash
-   cd github-live-search
-   ```
+```bash
+cd GitHub-Live-Search
+```
 
-3. Open `index.html` in your browser.
+Open `Live_search.html` in your browser.
 
-No build tools or package installation are required for this basic version.
+No package installation or build tools are required.
 
 ## What I Learned
 
-This project helped me practise:
+Working on this project helped me practise:
 
+- Fetching data from external APIs
 - Asynchronous JavaScript with `async/await`
-- Fetching data from an external API
 - Promises and JSON response handling
 - Debouncing with `setTimeout()` and `clearTimeout()`
 - Request cancellation with `AbortController`
-- Closures and passing arguments through callbacks
-- Race conditions and stale response protection
+- Closures and callback behaviour
+- Race conditions and stale-response protection
 - Error handling with `try/catch`
+
+## Screenshot
+
+![YogiFinder profile result](images/SS.png)
 
 ## Future Improvements
 
-- Improve the UI and make it responsive.
-- Add GitHub profile avatars and repository statistics.
-- Introduce loading, success, and error states.
-- Improve accessibility and user feedback.
-- Deploy a live demo using GitHub Pages.
+- Further improve responsive design and accessibility.
+- Refine HTTP error messages and user feedback.
+- Add more profile information and features as needed.
 
 ## Acknowledgements
 
-- [GitHub REST API](https://docs.github.com/en/rest/users/users)
+- [GitHub REST API — Users](https://docs.github.com/en/rest/users/users)
 
 ---
 
-**Status:** Basic version — ongoing project.
-**Screen-Shot:** ![Profile Result](images/SS.png)
-
+**Status:** Initial project version built; deployment and final testing to be confirmed.
