@@ -1,4 +1,4 @@
-\# YogiFinder — GitHub Profile Search
+# YogiFinder — GitHub Profile Search
 
 YogiFinder is a simple web application that lets you search for GitHub users and view their profile information without leaving the page.
 
