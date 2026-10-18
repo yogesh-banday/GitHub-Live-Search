@@ -64,8 +64,9 @@ Working on this project helped me practise:
 
 ## Screenshot
 
-![YogiFinder profile result](images/SS.png)
-
+![YogiFinder profile result](images/SS1.png)
+![YogiFinder profile result](images/SS2.png)
+![YogiFinder profile result](images/SS3.png)
 ## Future Improvements
 
 - Further improve responsive design and accessibility.
