@@ -16,6 +16,9 @@ let location1 = document.querySelector(".loacation")
 let github_link = document.querySelector(".github_link")
 let twitter = document.querySelector(".twitter")
 let email = document.querySelector(".email")
+let pop_up = document.querySelector(".pop-up")
+let catche = document.querySelector(".catch")
+let search_button = document.getElementById("search")
 
 // function fetchapi(user_name){
 //      console.log("Searching for user name:", user_name);
@@ -45,10 +48,14 @@ async function fetchapi(user_name, requestId) {
             year: "numeric"
         });
 
+        // Show the card again
+        card.style.display = "";
+        // hide the pop-up when user is found
+        catche.style.display = "none";
         console.log(joinedDate);
         name.innerHTML = `<h2>${data.name}</h2>`;
         name.innerHTML += `<p>Joined ${joinedDate}</p>`;
-        username1.innerHTML = `<p>@${data.login}</p>`;
+        username.innerHTML = `<p>@${data.login}</p>`;
         avtar.innerHTML = `<img src="${data.avatar_url}" alt="Avatar" width="140" height="140"  border-radius= '14px';>`;
         // result.innerHTML = `<p>Name: ${data.name}</p><p>Bio: ${data.bio}</p>`;
         if (data.bio) {
@@ -80,6 +87,18 @@ async function fetchapi(user_name, requestId) {
         const style = document.createElement("style");
 
         style.textContent = `
+
+        .card {
+        display: flex;
+        // display:none;
+        width: 50vw;
+        height: 63vh;
+        background-color: var(--color-card);
+        margin: auto;
+        margin-top: 20px;
+        border-radius: 14px;
+      }
+
   .reach {
     display: flex;
     width: 100%;
@@ -120,8 +139,27 @@ async function fetchapi(user_name, requestId) {
             return; // Ignore outdated response
         } else {
             console.error("Error fetching user data:", error);
-            result.innerHTML = "<p>User not found</p>";
+            name.innerHTML = "";
+            username.innerHTML = "";
+            avtar.innerHTML = "";
+            bio.innerHTML = "";
+            repo.innerHTML = "";
+            follower.innerHTML = "";
+            following.innerHTML = "";
+            repo_name.innerHTML = "";
+            follower_name.innerHTML = "";
+            following_name.innerHTML = "";
+            location1.innerHTML = "";
+            github_link.innerHTML = "";
+            twitter.innerHTML = "";
+            email.innerHTML = "";
+            pop_up.innerHTML = "<p>User not found</p>";
+
+            card.style.display = "none"; // Hide the card when user not found
+            catche.style.display = ""; // Show the pop-up when user not found
+
         }
+
     }
 }
 
@@ -136,10 +174,29 @@ function debounce(call_back, delay) {
         }
 
         timer = setTimeout(() => {
-            name.innerHTML = "Searching...";
+            // result.innerHTML = "Searching...";
+            pop_up.innerHTML = "<p>Searching...</p>";
+            catche.style.display = ""; // Show the pop-up while searching
+            let style = document.createElement("style");
+            style.textContent = `
+            .catch {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 50vw;
+            height: 50px;
+            background-color: var(--color-card);
+           margin: auto;
+           margin-top: 20px;
+           border-radius: 14px;
+        
+        }`
+            document.head.appendChild(style);
+            card.style.display = "none"; // Hide the card while searching
             call_back(user_name, requestId);
         }, delay);
     }
+
     debounced.cancel = function () {
         clearTimeout(timer);
         if (controller) {
@@ -148,13 +205,35 @@ function debounce(call_back, delay) {
     };
     return debounced;
 };
+
 const call = debounce(fetchapi, 700)
 
 
 user_type.addEventListener("input", () => {
     const requestId = ++latest_RequestId;
     if (user_type.value.trim() === "") {
-        result.innerHTML = "";
+        // result.innerHTML = "";
+        pop_up.innerHTML = "<p>Input is empty. Please enter a username.</p>";
+        card.style.display = "none"; // Hide the card when input is empty
+        catche.style.display = ""; // Show the pop-up when input is empty
+
+        console.log("Input is empty. Please enter a username.");
+        call.cancel(); // Cancel the debounce timer and abort the fetch request
+        return;
+    }
+
+    let user_name = user_type.value
+    console.log(user_name)
+    call(user_name, requestId)
+})
+search_button.addEventListener("click", () => {
+    const requestId = ++latest_RequestId;
+    if (user_type.value.trim() === "") {
+        // result.innerHTML = "";
+        pop_up.innerHTML = "<p>Input is empty. Please enter a username.</p>";
+        card.style.display = "none"; // Hide the card when input is empty
+        catche.style.display = ""; // Show the pop-up when input is empty
+
         console.log("Input is empty. Please enter a username.");
         call.cancel(); // Cancel the debounce timer and abort the fetch request
         return;
